@@ -19,20 +19,6 @@ npm run build
 
 ビルド成果物は `dist/` に出力されます。GitHub Pages、Cloudflare Pages、Netlifyなどの静的ホスティングでDiscord共有用URLを用意できます。
 
-
-## GitHub Pagesで公開する方法
-
-このプロジェクトはTypeScript/Vite製なので、GitHub Pagesの公開元をリポジトリの **root** にして保存するだけでは起動できません。`src/main.ts` はブラウザが直接実行するファイルではなく、先に `npm run build` で `dist/` に変換する必要があります。
-
-推奨設定は以下です。
-
-1. このリポジトリをGitHubにpushします。
-2. GitHubの **Settings → Pages** を開きます。
-3. **Build and deployment** の **Source** を **GitHub Actions** に変更します。
-4. `main` または `master` にpushすると、`.github/workflows/pages.yml` が自動で `npm install` と `npm run build` を実行し、生成された `dist/` をPagesへ公開します。
-
-すでにPagesのSourceを「Deploy from a branch / root」にしている場合は、**GitHub Actions** に変更してください。root公開のままだと、開発用のTypeScriptソースをそのまま配信してしまい、白画面や404の原因になります。
-
 ## 操作方法
 
 - 基本操作: タップ

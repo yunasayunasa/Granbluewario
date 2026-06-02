@@ -44,10 +44,10 @@ export class InputManager {
 
   /** iOSなどで傾き操作の許可を要求する。 */
   public async requestTiltPermission(): Promise<boolean> {
-    const orientation = globalThis.DeviceOrientationEvent as
-      | (typeof DeviceOrientationEvent & { requestPermission?: () => Promise<'granted' | 'denied'> })
-      | undefined;
-    if (typeof orientation?.requestPermission === 'function') {
+    const orientation = DeviceOrientationEvent as typeof DeviceOrientationEvent & {
+      requestPermission?: () => Promise<'granted' | 'denied'>;
+    };
+    if (typeof orientation.requestPermission === 'function') {
       const result = await orientation.requestPermission();
       this.tiltEnabled = result === 'granted';
       return this.tiltEnabled;

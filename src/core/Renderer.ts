@@ -51,8 +51,10 @@ export class Renderer {
 
   /** 角丸矩形を描画する。 */
   public roundedRect(rect: Rect, fill: string, stroke = '#fff7d6', lineWidth = 3): void {
+    const radius = 14;
     this.ctx.save();
-    this.beginRoundedRectPath(rect, 14);
+    this.ctx.beginPath();
+    this.ctx.roundRect(rect.x, rect.y, rect.width, rect.height, radius);
     this.ctx.fillStyle = fill;
     this.ctx.fill();
     this.ctx.strokeStyle = stroke;
@@ -109,26 +111,10 @@ export class Renderer {
   public gauge(x: number, y: number, width: number, height: number, ratio: number, color = '#7fe28a'): void {
     this.roundedRect({ x, y, width, height }, '#2a1c31', '#fff0b0', 2);
     this.ctx.save();
-    this.beginRoundedRectPath({ x: x + 3, y: y + 3, width: Math.max(0, width - 6) * ratio, height: Math.max(0, height - 6) }, 8);
+    this.ctx.beginPath();
+    this.ctx.roundRect(x + 3, y + 3, Math.max(0, width - 6) * ratio, Math.max(0, height - 6), 8);
     this.ctx.fillStyle = color;
     this.ctx.fill();
     this.ctx.restore();
-  }
-
-  private beginRoundedRectPath(rect: Rect, radius: number): void {
-    const usableRadius = Math.min(radius, rect.width / 2, rect.height / 2);
-    const right = rect.x + rect.width;
-    const bottom = rect.y + rect.height;
-    this.ctx.beginPath();
-    this.ctx.moveTo(rect.x + usableRadius, rect.y);
-    this.ctx.lineTo(right - usableRadius, rect.y);
-    this.ctx.quadraticCurveTo(right, rect.y, right, rect.y + usableRadius);
-    this.ctx.lineTo(right, bottom - usableRadius);
-    this.ctx.quadraticCurveTo(right, bottom, right - usableRadius, bottom);
-    this.ctx.lineTo(rect.x + usableRadius, bottom);
-    this.ctx.quadraticCurveTo(rect.x, bottom, rect.x, bottom - usableRadius);
-    this.ctx.lineTo(rect.x, rect.y + usableRadius);
-    this.ctx.quadraticCurveTo(rect.x, rect.y, rect.x + usableRadius, rect.y);
-    this.ctx.closePath();
   }
 }
